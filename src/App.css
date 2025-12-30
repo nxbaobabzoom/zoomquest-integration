@@ -1,0 +1,152 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: white;
+}
+
+.logo-container {
+  margin-bottom: 30px;
+}
+
+.app-title {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+}
+
+.status-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px 40px;
+  margin: 20px 0;
+  min-width: 300px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.status-indicator {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.status-indicator.success {
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.error {
+  animation: shake 0.5s;
+}
+
+.status-text {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.error-text {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.context-info {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin: 20px 0;
+  min-width: 300px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.context-info h3 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #ffd700;
+}
+
+.context-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.info-section {
+  max-width: 600px;
+  margin-top: 30px;
+  padding: 20px;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.next-steps {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffd700;
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 2rem;
+  }
+  
+  .status-card,
+  .context-info {
+    min-width: 250px;
+    padding: 20px;
+  }
+  
+  .info-section {
+    padding: 15px;
+  }
+}
