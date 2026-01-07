@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import zoomSdk from '@zoom/appssdk';
+import UnityGame from './UnityGame';
+import ErrorBoundary from './ErrorBoundary';
+import { logger } from './utils/logger';
 import './App.css';
 
 function App() {
-  const [status, setStatus] = useState('Initializing...');
   const [zoomContext, setZoomContext] = useState(null);
   const [error, setError] = useState(null);
+  const [showUnityGame, setShowUnityGame] = useState(false);
 
   useEffect(() => {
     async function initializeZoomSDK() {
@@ -21,18 +24,16 @@ function App() {
           version: '0.16.0'
         });
         
-        console.log('Zoom SDK configured:', configResponse);
+        logger.log('Zoom SDK configured:', configResponse);
 
         // Get meeting context
         const context = await zoomSdk.getMeetingContext();
         setZoomContext(context);
         
-        setStatus('Welcome to ZoomQuest! Zoom SDK Loaded.');
-        console.log('Meeting context:', context);
+        logger.log('Meeting context:', context);
       } catch (error) {
-        setStatus('Error: Unable to load Zoom SDK');
         setError(error.message);
-        console.error('Zoom SDK Error:', error);
+        logger.error('Zoom SDK Error:', error);
       }
     }
 
@@ -41,38 +42,71 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <div className="logo-container">
-          <h1 className="app-title">🎮 ZoomQuest</h1>
-          <p className="subtitle">Educational SDK Adventure</p>
-        </div>
-        
-        <div className="status-card">
-          <div className={`status-indicator ${error ? 'error' : 'success'}`}>
-            {error ? '❌' : '✅'}
-          </div>
-          <p className="status-text">{status}</p>
-          {error && <p className="error-text">Error: {error}</p>}
-        </div>
+      {!showUnityGame ? (
+        <div className="App-header">
+          <div className="header-content">
+            <div className="logo-container">
+              <h1 className="app-title">ZoomQuest</h1>
+              <p className="subtitle">Learn Zoom SDKs through interactive gameplay</p>
+            </div>
+            
+            <div className="main-content">
+              <div className="welcome-card">
+                <div className="status-badge">
+                  <span className={`status-dot ${error ? 'error' : 'success'}`}></span>
+                  <span className="status-label">
+                    {error ? 'SDK Not Available' : 'Ready to Play'}
+                  </span>
+                </div>
+                
+                <p className="description">
+                  Embark on an educational adventure that teaches Zoom SDK concepts 
+                  through an immersive side-scrolling game experience.
+                </p>
 
-        {zoomContext && (
-          <div className="context-info">
-            <h3>Meeting Information</h3>
-            <p>Meeting ID: {zoomContext.meetingID || 'N/A'}</p>
-            <p>Status: Connected to Zoom</p>
-          </div>
-        )}
+                <button 
+                  className="start-game-button"
+                  onClick={() => setShowUnityGame(true)}
+                >
+                  <span className="button-icon">🎮</span>
+                  <span>Start Game</span>
+                </button>
+              </div>
 
-        <div className="info-section">
-          <p className="description">
-            An interactive educational game that teaches developers about Zoom SDKs 
-            through immersive gameplay.
-          </p>
-          <p className="next-steps">
-            🚀 Next: Unity WebGL integration coming soon!
-          </p>
+              {zoomContext && (
+                <div className="meeting-info">
+                  <div className="info-item">
+                    <span className="info-label">Meeting ID</span>
+                    <span className="info-value">{zoomContext.meetingID || 'N/A'}</span>
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <div className="error-notice">
+                  <span className="error-icon">⚠️</span>
+                  <span className="error-message">
+                    Running outside Zoom environment. Game will work in Zoom App.
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </header>
+      ) : (
+        <div className="game-view">
+          <button 
+            className="back-button-overlay"
+            onClick={() => setShowUnityGame(false)}
+            aria-label="Back to Menu"
+          >
+            <span className="back-icon">←</span>
+          </button>
+          <ErrorBoundary>
+            <UnityGame />
+          </ErrorBoundary>
+        </div>
+      )}
     </div>
   );
 }
